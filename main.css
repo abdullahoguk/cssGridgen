@@ -1,0 +1,98 @@
+/* Border box declaration 
+https://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
+html {
+  box-sizing: border-box;
+}
+/* inherit border-box on all elements in the universe and before and after
+ */
+*, 
+*:before, 
+*:after {
+  box-sizing: inherit;
+}
+
+.app{
+  height:95vh;
+  display:flex;
+  flex-direction:column;
+  flex-basis: 100%;
+}
+
+.header{
+  background-color: #ccc;
+  height: 10%;
+
+}
+.main{
+  display:flex;
+  flex-grow:1;
+  align-items:stretch;
+  justify-content:stretch;
+}
+.left{
+  width:20%;
+  background-color: #def;
+}
+.right{
+  width:20%;
+  background-color: #fed;
+}
+
+input[name="row"], input[name="column"]{
+  border: none;
+  padding: .5em;
+  padding: 10px 20px 5px 10px;  
+  border-radius: .1em;
+  background-color: rgb(1, 54, 32);
+  border-bottom: solid 2px rgb(0, 255, 128);
+  color: rgb(0, 255, 191);
+  height: 3em;
+  font-size: 1em;
+}
+
+.left , .right{
+  padding: 1em;
+}
+
+.footer{
+  background-color: #ccc;
+  height: 15%;
+}
+.gridContainer{
+  flex-grow:1;
+  width:100%;
+  height:100%;
+  padding: 1em;
+  
+}
+
+.gridWireframe{
+  flex-grow:1;
+  border:.1em dotted #ccc;
+  display:grid;
+  background: rgb(29, 29, 29); 
+}
+.cell{
+background-color: rgb(92, 92, 92); 
+display: flex;
+align-items: center;
+justify-content: center;
+
+border: #ccc dotted 1px;
+}
+.selected.cell{
+  background-color: rgb(207, 186, 157); 
+display: flex;
+align-items: center;
+justify-content: center;
+
+border: #ccc dotted 1px;
+}
+
+.cell > span{
+  font-size: .7em;
+  font-weight: 800;
+  color:rgb(150, 155, 228);
+}
+
+
