@@ -89,6 +89,10 @@ justify-content: center;
 border: #ccc dotted 1px;
 }
 
+.selectable.cell{
+  background-color: rgb(197, 248, 114); 
+}
+
 .cell > span{
   font-size: .7em;
   font-weight: 800;
