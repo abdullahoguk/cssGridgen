@@ -78,8 +78,8 @@ function selectCell(e){
         eventState="selectEnd";
         e.target.classList.add("lastCell");
         lastSelectedCell = e.target;
-        let [firstRow,firstColumn] = [firstSelectedCell.dataset.row, firstSelectedCell.dataset.column];
-        let [lastRow, lastColumn] = [lastSelectedCell.dataset.row, lastSelectedCell.dataset.column];
+        let [firstRow,firstColumn] = [Number(firstSelectedCell.dataset.row), Number(firstSelectedCell.dataset.column)];
+        let [lastRow, lastColumn] = [Number(lastSelectedCell.dataset.row), Number(lastSelectedCell.dataset.column)];
         calculateSelection(firstRow,firstColumn,lastRow,lastColumn);
         eventState="none";
         firstSelectedCell="";
@@ -99,8 +99,8 @@ function selectCell(e){
 
 function cellHover(e){
     if(eventState=="selectStart"&&e.target.classList.contains("cell")){
-        let [firstRow,firstColumn] = [firstSelectedCell.dataset.row, firstSelectedCell.dataset.column];
-        let [lastRow, lastColumn] = [e.target.dataset.row, e.target.dataset.column];
+        let [firstRow,firstColumn] = [Number(firstSelectedCell.dataset.row), Number(firstSelectedCell.dataset.column)];
+        let [lastRow, lastColumn] = [Number(e.target.dataset.row), Number(e.target.dataset.column)];
         calculateSelection(firstRow,firstColumn,lastRow,lastColumn);
     }
 }
