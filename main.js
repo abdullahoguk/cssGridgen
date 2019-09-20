@@ -1,15 +1,18 @@
 var gridData = {
     numOfRows:4,
     numOfColumns:6,
-    gridGap:".3em"
+    gridGap:".2em",
+    rowSize:["1fr","1fr","1fr","1fr"],
+    columnSize:["1fr","1fr","1fr","1fr","1fr","1fr"]
 }
-
-
 
 const gridContainer = document.querySelector(".gridContainer");
 const gridWireframe = gridContainer.querySelector(".gridWireframe");
 const rowInput = document.querySelector("input#row");
 const columnInput = document.querySelector("input#column");
+
+const rowSizeInputsContainer = document.querySelector(".rowSizeInputsContainer");
+const columnSizeInputsContainer = document.querySelector(".columnSizeInputsContainer");
 
 createGrid(gridData.numOfRows, gridData.numOfColumns );
 
@@ -35,33 +38,83 @@ function createGrid(row,col){
             gridWireframe.appendChild(cell);
             cell.addEventListener("click",selectCell);
             cell.addEventListener("mouseover",cellHover)
-
         }     
     }
-    gridWireframe.style.width="100%";
-    gridWireframe.style.height="100%";
+
+
     gridWireframe.style.gridGap=gridData.gridGap;
-    gridWireframe.style.gridTempalateRows = `repeat(${row},1fr)`;
-    gridWireframe.style.gridTempalateColumns = `repeat(${col},1fr)`;
+    gridWireframe.style.gridTemplateRows = gridData.rowSize.join(" ");
+    gridWireframe.style.gridTemplateColumns =  gridData.columnSize.join(" ");
+    
     rowInput.value=gridData.numOfRows;
     columnInput.value=gridData.numOfColumns;
+
+    //create row/column size inputs
+    //create row inputs
+    rowSizeInputsContainer.innerHTML="";
+    rowSizeInputsContainer.style.gridTemplateRows=gridData.rowSize.join(" ");
+
+    for(let i=0;i<row;i++){
+        input = document.createElement("input");
+        input.name=i+1;
+        input.value=gridData.rowSize[i];
+        input.classList.add("rowSize");
+        input.addEventListener("change",changeRowColSize);
+        rowSizeInputsContainer.appendChild(input);
+    }
+
+    //create column inputs
+    columnSizeInputsContainer.innerHTML="";
+    columnSizeInputsContainer.style.gridTemplateColumns=gridData.columnSize.join(" ");
+    for(let j=0;j<col;j++){
+        input = document.createElement("input");
+        input.name=j+1;
+        input.value=gridData.columnSize[j];
+        input.classList.add("columnSize");
+        input.addEventListener("change",changeRowColSize);
+        columnSizeInputsContainer.appendChild(input);
+    }
 }
 
 function addRowCol(e){
+    let value=Number(e.target.value);
     if(e.target.name == "row"){
-        gridData.numOfRows = e.target.value;
+        if(value>gridData.numOfRows){
+            let extra = value - gridData.numOfRows;
+            gridData.rowSize.push(Array(extra).fill("1fr"));
+        }
+        else{
+            gridData.rowSize = gridData.rowSize.slice(0,value);
+        }
+        gridData.numOfRows = value;
     }
 
     else if(e.target.name == "column"){
-        gridData.numOfColumns = e.target.value;
+        if(value>gridData.numOfColumns){
+            let extra = value - gridData.numOfColumns;
+            gridData.columnSize.push(Array(extra).fill("1fr"));        
+        }
+        else{
+            gridData.columnSize = gridData.columnSize.slice(0,value);
+        }
+        gridData.numOfColumns = value;
     }
 
     else{
-        console.error("Error when adding row o column")
+        console.error("Error when adding row or column")
     }
     
     gridWireframe.innerHTML="";
     createGrid(gridData.numOfRows, gridData.numOfColumns );
+}
+
+function changeRowColSize(e){
+    let key = e.target.classList.contains("rowSize") ? "rowSize": e.target.classList.contains("columnSize") ? "columnSize":"";
+    let index = Number(e.target.name);
+    gridData[key][index-1]=e.target.value;
+
+    gridWireframe.innerHTML="";
+    createGrid(gridData.numOfRows, gridData.numOfColumns);
 }
 
 function selectCell(e){
